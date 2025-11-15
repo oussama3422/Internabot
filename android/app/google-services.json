@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "554691543284",
+    "project_id": "internabot",
+    "storage_bucket": "internabot.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:554691543284:android:db8ecb3d3a107342e45ea1",
+        "android_client_info": {
+          "package_name": "com.example.internabot"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDNU4elZZ4U11OGE0rrA2A6_16ko0eMf0o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
