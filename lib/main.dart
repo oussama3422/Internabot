@@ -7,7 +7,6 @@ import 'package:internabot/presentation/routes/app_router.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  
   // Initialize Firebase
   // TODO: Uncomment after running: flutterfire configure
   // This will generate firebase_options.dart file

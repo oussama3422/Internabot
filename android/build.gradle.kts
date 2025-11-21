@@ -1,3 +1,5 @@
+import com.android.build.gradle.LibraryExtension
+
 allprojects {
     repositories {
         google()
@@ -11,9 +13,13 @@ rootProject.layout.buildDirectory.value(newBuildDir)
 subprojects {
     val newSubprojectBuildDir: Directory = newBuildDir.dir(project.name)
     project.layout.buildDirectory.value(newSubprojectBuildDir)
-}
-subprojects {
-    project.evaluationDependsOn(":app")
+
+    afterEvaluate {
+        if (name == "isar_flutter_libs") {
+            extensions.findByType(LibraryExtension::class.java)?.namespace =
+                "com.internabot.isar_flutter_libs"
+        }
+    }
 }
 
 tasks.register<Delete>("clean") {
