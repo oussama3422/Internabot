@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../../core/theme/app_theme.dart';
 import '../../../../../domain/entities/progress_entity.dart';
-import '../../../../tracking/providers/progress_providers.dart';
+import '../../../../../features/tracking/providers/progress_providers.dart';
 
 class DashboardPage extends ConsumerStatefulWidget {
   const DashboardPage({super.key});
@@ -96,9 +96,10 @@ class _HomeTab extends StatelessWidget {
                   children: [
                     Text(
                       'Bienvenue!',
-                      style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                            color: AppTheme.neutralWhite,
-                          ),
+                      style:
+                          Theme.of(context).textTheme.headlineMedium?.copyWith(
+                                color: AppTheme.neutralWhite,
+                              ),
                     ),
                     const SizedBox(height: 8),
                     Text(
@@ -352,7 +353,8 @@ class _ProgressError extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(Icons.warning_amber_rounded, size: 48, color: Colors.red),
+            const Icon(Icons.warning_amber_rounded,
+                size: 48, color: Colors.red),
             const SizedBox(height: 12),
             Text(
               'Impossible de charger les progrès',
@@ -406,9 +408,10 @@ class _ReadinessCard extends StatelessWidget {
                     children: [
                       Text(
                         '${readinessPercent.toStringAsFixed(0)}%',
-                        style: Theme.of(context).textTheme.displayMedium?.copyWith(
-                              color: AppTheme.secondaryGreen,
-                            ),
+                        style:
+                            Theme.of(context).textTheme.displayMedium?.copyWith(
+                                  color: AppTheme.secondaryGreen,
+                                ),
                       ),
                       const SizedBox(height: 8),
                       Text(
@@ -418,7 +421,8 @@ class _ReadinessCard extends StatelessWidget {
                       const SizedBox(height: 16),
                       Row(
                         children: [
-                          const Icon(Icons.schedule, color: AppTheme.neutralGray, size: 18),
+                          const Icon(Icons.schedule,
+                              color: AppTheme.neutralGray, size: 18),
                           const SizedBox(width: 8),
                           Text(
                             'Dernière copie : ${_formatDate(metrics.lastCorrectionAt)}',
@@ -429,7 +433,8 @@ class _ReadinessCard extends StatelessWidget {
                       const SizedBox(height: 8),
                       Row(
                         children: [
-                          const Icon(Icons.flag_outlined, color: AppTheme.neutralGray, size: 18),
+                          const Icon(Icons.flag_outlined,
+                              color: AppTheme.neutralGray, size: 18),
                           const SizedBox(width: 8),
                           Text(
                             'Objectif : ${metrics.targetScore.toStringAsFixed(0)}/100',
@@ -453,7 +458,8 @@ class _ReadinessCard extends StatelessWidget {
                           value: readinessPercent / 100,
                           strokeWidth: 10,
                           backgroundColor: AppTheme.neutralLightGray,
-                          valueColor: const AlwaysStoppedAnimation<Color>(AppTheme.secondaryGreen),
+                          valueColor: const AlwaysStoppedAnimation<Color>(
+                              AppTheme.secondaryGreen),
                         ),
                       ),
                       Text(
@@ -490,12 +496,16 @@ class _ScoreTrendCard extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  'Évolution des scores',
-                  style: Theme.of(context).textTheme.titleLarge,
+                Expanded(
+                  child: Text(
+                    'Évolution des scores',
+                    style: Theme.of(context).textTheme.titleLarge,
+                    overflow: TextOverflow.ellipsis, // avoids overflow
+                  ),
                 ),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                   decoration: BoxDecoration(
                     color: AppTheme.neutralLightGray,
                     borderRadius: BorderRadius.circular(20),
@@ -582,18 +592,21 @@ class _ScoreTrendPainter extends CustomPainter {
     final minScore = points.map((e) => e.score).reduce((a, b) => a < b ? a : b);
     final maxScore = points.map((e) => e.score).reduce((a, b) => a > b ? a : b);
     final range = (maxScore - minScore).abs() < 1 ? 1 : (maxScore - minScore);
-    final horizontalStep = points.length == 1 ? 0 : size.width / (points.length - 1);
+    final horizontalStep =
+        points.length == 1 ? 0 : size.width / (points.length - 1);
 
     final path = Path();
     final firstPoint = points.first;
-    final firstY = size.height - ((firstPoint.score - minScore) / range * size.height);
+    final firstY =
+        size.height - ((firstPoint.score - minScore) / range * size.height);
     path.moveTo(0, firstY);
 
     for (var i = 1; i < points.length; i++) {
       final point = points[i];
-      final normalizedY = size.height - ((point.score - minScore) / range * size.height);
+      final normalizedY =
+          size.height - ((point.score - minScore) / range * size.height);
       final dx = horizontalStep * i;
-      path.lineTo(dx, normalizedY);
+      path.lineTo(dx.toDouble(), normalizedY.toDouble());
     }
 
     final fillPath = Path.from(path)
@@ -621,7 +634,12 @@ class _ScoreTrendPainter extends CustomPainter {
       final point = points[i];
       final dx = horizontalStep * i;
       final dy = size.height - ((point.score - minScore) / range * size.height);
-      canvas.drawCircle(Offset(dx, dy), 4, pointPaint);
+      // canvas.drawCircle(Offset(dx.toDouble(), dy), 4, pointPaint);
+      canvas.drawCircle(
+        Offset(dx.toDouble(), dy.toDouble()),
+        4.0,
+        pointPaint,
+      );
     }
   }
 
@@ -704,9 +722,10 @@ class _FocusAreasCard extends StatelessWidget {
                         children: [
                           Text(
                             area.area,
-                            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                                  fontWeight: FontWeight.w600,
-                                ),
+                            style:
+                                Theme.of(context).textTheme.bodyLarge?.copyWith(
+                                      fontWeight: FontWeight.w600,
+                                    ),
                           ),
                           const SizedBox(height: 4),
                           Text(
@@ -717,7 +736,8 @@ class _FocusAreasCard extends StatelessWidget {
                       ),
                     ),
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 12, vertical: 6),
                       decoration: BoxDecoration(
                         color: _focusStatusColor(area.status).withOpacity(0.15),
                         borderRadius: BorderRadius.circular(20),
@@ -731,9 +751,13 @@ class _FocusAreasCard extends StatelessWidget {
                     ),
                     const SizedBox(width: 12),
                     Text(
-                      area.delta >= 0 ? '+${area.delta.toStringAsFixed(1)}' : area.delta.toStringAsFixed(1),
+                      area.delta >= 0
+                          ? '+${area.delta.toStringAsFixed(1)}'
+                          : area.delta.toStringAsFixed(1),
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                            color: area.delta >= 0 ? AppTheme.secondaryGreen : Colors.redAccent,
+                            color: area.delta >= 0
+                                ? AppTheme.secondaryGreen
+                                : Colors.redAccent,
                             fontWeight: FontWeight.w600,
                           ),
                     ),
@@ -838,7 +862,8 @@ class _ProfileTab extends StatelessWidget {
           ),
           ListTile(
             leading: const Icon(Icons.logout, color: Colors.red),
-            title: const Text('Déconnexion', style: TextStyle(color: Colors.red)),
+            title:
+                const Text('Déconnexion', style: TextStyle(color: Colors.red)),
             onTap: () {
               // TODO: Implement logout
               context.go('/login');
@@ -849,4 +874,3 @@ class _ProfileTab extends StatelessWidget {
     );
   }
 }
-

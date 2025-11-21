@@ -17,10 +17,8 @@ void main() async {
   } catch (e) {
     debugPrint('Firebase not initialized. Run "flutterfire configure" to set up Firebase');
   }
-  
   // Initialize Hive for local storage
   await Hive.initFlutter();
-  
   runApp(
     const ProviderScope(
       child: InternaBotApp(),

@@ -10,7 +10,7 @@ import '../features/specialty/presentation/pages/specialty_guide_page.dart';
 
 class AppRouter {
   static final GoRouter router = GoRouter(
-    initialLocation: '/login',
+    initialLocation: '/dashboard',
     routes: [
       GoRoute(
         path: '/login',
@@ -46,4 +46,3 @@ class AppRouter {
     ],
   );
 }
-
